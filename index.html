@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111b">
+  <meta name="description" content="J.A.R.V.I.S. — a private, installable voice assistant with offline commands, weather, and optional AI.">
+  <title>J.A.R.V.I.S. — Personal Assistant</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="JARVIS home">
+        <img src="./icon.svg" alt="" width="42" height="42">
+        <span><strong>J.A.R.V.I.S.</strong><small>PERSONAL SYSTEMS INTERFACE</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="connection"><i id="connection-dot"></i><span id="connection-label">Checking connection</span></span>
+        <button class="icon-button" id="settings-open" type="button" aria-label="Open online AI settings" title="Online AI settings">⚙</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="greeting">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> YOUR ASSISTANT, ON YOUR DEVICE</p>
+          <h1 id="greeting">Good to see you.</h1>
+          <p class="hero-subtitle">Ready when you are. Ask me something, or give me a command.</p>
+        </div>
+        <div class="orb-wrap" aria-hidden="true">
+          <div class="orb-ring ring-one"></div><div class="orb-ring ring-two"></div>
+          <div class="orb-core"><span class="orb-dot"></span><span class="orb-cross cross-v"></span><span class="orb-cross cross-h"></span></div>
+          <span class="orb-caption">J.A.R.V.I.S. <i>ONLINE</i></span>
+        </div>
+      </section>
+
+      <section class="assistant-panel" aria-label="Assistant conversation">
+        <div class="panel-heading"><div><span class="section-kicker">LIVE SESSION</span><h2>Command center</h2></div><button id="clear-chat" class="text-button" type="button">Clear conversation</button></div>
+        <div class="conversation" id="conversation" aria-live="polite" aria-label="Conversation">
+          <article class="message assistant-message"><div class="message-avatar">J</div><div class="message-content"><span class="message-author">J.A.R.V.I.S. <time>JUST NOW</time></span><p>Systems are ready. I can help with the time, calculations, local weather, and web searches—even when you’re offline.</p></div></article>
+        </div>
+        <div class="voice-card">
+          <div class="voice-indicator" id="voice-indicator"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="voice-copy"><strong id="voice-title">Voice is standing by</strong><small id="voice-status">Activate voice to speak a command</small></div>
+          <button id="voice-toggle" class="voice-button" type="button"><span class="mic-icon" aria-hidden="true">⌁</span><span>Activate voice</span></button>
+        </div>
+        <form class="composer" id="command-form">
+          <label class="sr-only" for="command-input">Type a message or command</label>
+          <span class="composer-mark" aria-hidden="true">›</span>
+          <input id="command-input" type="text" placeholder="Type a message or command…" autocomplete="off" maxlength="1000">
+          <button class="send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="wake-hint"><span class="keyboard-key">TIP</span> Voice commands start with <strong>“Hey Jarvis”</strong> while this page is open.</p>
+      </section>
+
+      <section class="quick-section" aria-labelledby="quick-title">
+        <div class="panel-heading compact"><div><span class="section-kicker">QUICK ACCESS</span><h2 id="quick-title">Try a command</h2></div></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-command="What time is it?"><span class="quick-icon">◷</span><span><strong>Time &amp; date</strong><small>“What time is it?”</small></span><span class="card-arrow">↗</span></button>
+          <button class="quick-card" data-command="Calculate 18 times 7"><span class="quick-icon">＋</span><span><strong>Quick calculation</strong><small>“Calculate 18 times 7”</small></span><span class="card-arrow">↗</span></button>
+          <button class="quick-card" data-command="Weather"><span class="quick-icon">☼</span><span><strong>Local weather</strong><small>Uses your device location</small></span><span class="card-arrow">↗</span></button>
+          <button class="quick-card" data-command="Help"><span class="quick-icon">⌘</span><span><strong>What can you do?</strong><small>See available commands</small><span class="card-arrow">↗</span></span></button>
+        </div>
+      </section>
+      <footer><span>BUILT FOR YOUR DEVICE <i>·</i> NO ADS, NO SUBSCRIPTION</span><button type="button" id="install-button" hidden>Install app</button><span class="footer-note">AI is optional. Your key stays in this browser.</span></footer>
+    </main>
+  </div>
+
+  <dialog id="settings-dialog" class="settings-dialog">
+    <form method="dialog" class="dialog-close-form"><button class="dialog-close" aria-label="Close settings">×</button></form>
+    <div class="dialog-icon">✳</div><p class="section-kicker">OPTIONAL FEATURE</p><h2>Online AI</h2>
+    <p class="dialog-intro">Connect a Gemini Developer API key to ask general questions. Your key is saved only in this browser on this device.</p>
+    <form id="settings-form">
+      <label for="api-key">Gemini API key</label>
+      <div class="key-field"><input id="api-key" type="password" placeholder="Paste your API key" autocomplete="off" spellcheck="false"><button id="reveal-key" type="button" aria-label="Show API key">Show</button></div>
+      <label for="model-name">Model</label><input id="model-name" type="text" value="gemini-2.5-flash" autocomplete="off" spellcheck="false">
+      <p class="security-note"><strong>Keep it private.</strong> A key stored in browser storage can be retrieved by anyone with access to this device/profile. Don’t publish a copy containing your key. Revoke exposed keys in Google AI Studio.</p>
+      <div class="dialog-actions"><button class="remove-button" type="button" id="remove-key">Remove key</button><button class="save-button" type="submit">Save on this device</button></div>
+    </form>
+    <a class="get-key" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Get a key in Google AI Studio <span>↗</span></a>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
